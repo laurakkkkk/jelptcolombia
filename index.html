@@ -1,0 +1,1073 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=yes" />
+    <title>Jabones Jelpt · Aseo profesional para apartamentos</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com" />
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+    <link href="https://fonts.googleapis.com/css2?family=Inter:opsz,wght@14..32,300..700&display=swap" rel="stylesheet" />
+    <style>
+        * {
+            margin: 0;
+            padding: 0;
+            box-sizing: border-box;
+        }
+        body {
+            font-family: 'Inter', sans-serif;
+            background: #f5f7fa;
+            color: #1a1a2a;
+            line-height: 1.7;
+        }
+
+        /* ===== TARJETA DE BIENVENIDA (OVERLAY) ===== */
+        .overlay-card {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(0, 0, 0, 0.7);
+            backdrop-filter: blur(8px);
+            -webkit-backdrop-filter: blur(8px);
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            z-index: 9999;
+            padding: 1.5rem;
+            transition: opacity 0.5s ease, visibility 0.5s ease;
+        }
+        .overlay-card.hidden {
+            opacity: 0;
+            visibility: hidden;
+            pointer-events: none;
+        }
+
+        .card-box {
+            background: #ffffff;
+            max-width: 520px;
+            width: 100%;
+            border-radius: 1.5rem;
+            padding: 2.5rem 2rem 2rem;
+            box-shadow: 0 30px 60px rgba(0,0,0,0.3);
+            text-align: left;
+            position: relative;
+        }
+        .card-box .emoji-big {
+            font-size: 3.5rem;
+            display: block;
+            margin-bottom: 0.3rem;
+        }
+        .card-box h2 {
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: -0.02em;
+            color: #0c0c22;
+            margin: 0.3rem 0 0.4rem;
+        }
+        .card-box .sub {
+            color: #4a4a62;
+            font-weight: 400;
+            font-size: 0.95rem;
+            margin-bottom: 1.2rem;
+            padding: 0;
+            line-height: 1.6;
+        }
+        .card-box .sub strong {
+            color: #0c0c22;
+        }
+        .card-box .sub .politicas-link {
+            color: #1a7a5a;
+            font-weight: 600;
+            text-decoration: none;
+            border-bottom: 1px solid transparent;
+            cursor: pointer;
+            transition: 0.2s;
+            background: none;
+            border-top: none;
+            border-left: none;
+            border-right: none;
+            font-size: 0.95rem;
+            font-family: inherit;
+            padding: 0;
+        }
+        .card-box .sub .politicas-link:hover {
+            border-bottom-color: #1a7a5a;
+        }
+        .card-box .btn-accept {
+            background: #1a7a5a;
+            color: white;
+            border: none;
+            padding: 0.9rem 2rem;
+            border-radius: 60px;
+            font-weight: 600;
+            font-size: 1rem;
+            cursor: pointer;
+            transition: 0.2s;
+            width: 100%;
+            box-shadow: 0 4px 16px rgba(26,122,90,0.35);
+        }
+        .card-box .btn-accept:hover {
+            background: #146a4a;
+            transform: scale(1.01);
+        }
+        .card-footer-links {
+            margin-top: 1.2rem;
+            font-size: 0.8rem;
+            color: #6b6b82;
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+            flex-wrap: wrap;
+        }
+        .card-footer-links .link-btn {
+            color: #1a7a5a;
+            font-weight: 500;
+            text-decoration: none;
+            background: none;
+            border: none;
+            font-size: 0.8rem;
+            font-family: inherit;
+            cursor: pointer;
+            transition: 0.2s;
+            padding: 0.2rem 0;
+            border-bottom: 1px solid transparent;
+        }
+        .card-footer-links .link-btn:hover {
+            border-bottom-color: #1a7a5a;
+            color: #146a4a;
+        }
+        .card-box .revoke-text {
+            font-size: 0.7rem;
+            color: #8a8aa2;
+            text-align: center;
+            margin-top: 1rem;
+            padding-top: 0.8rem;
+            border-top: 1px solid #f0ede8;
+        }
+
+        /* ===== CONTENIDO PRINCIPAL ===== */
+        .main-wrap {
+            max-width: 1100px;
+            margin: 0 auto;
+            padding: 1.5rem 1.5rem 3rem;
+        }
+
+        .top-bar {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            padding: 0.4rem 0 1.5rem;
+            border-bottom: 1px solid #e3dfd8;
+            flex-wrap: wrap;
+            gap: 0.8rem;
+        }
+        .logo-brand {
+            font-weight: 700;
+            font-size: 1.6rem;
+            letter-spacing: -0.5px;
+            color: #0c0c22;
+            display: flex;
+            align-items: center;
+            gap: 0.4rem;
+        }
+        .logo-brand span {
+            background: #1a7a5a;
+            color: white;
+            padding: 0.1rem 0.9rem;
+            border-radius: 40px;
+            font-size: 0.65rem;
+            font-weight: 600;
+            letter-spacing: 0.3px;
+        }
+        .nav-menu {
+            display: flex;
+            gap: 1.8rem;
+            font-weight: 500;
+            color: #3a3a52;
+        }
+        .nav-menu button {
+            background: none;
+            border: none;
+            font-family: inherit;
+            font-size: 1rem;
+            font-weight: 500;
+            color: #3a3a52;
+            cursor: pointer;
+            transition: 0.15s;
+            padding: 0.3rem 0;
+        }
+        .nav-menu button:hover {
+            color: #0c0c22;
+        }
+        .nav-menu button.active {
+            color: #1a7a5a;
+            border-bottom: 3px solid #1a7a5a;
+        }
+
+        /* ===== SECCIONES DE CONTENIDO ===== */
+        .section-content {
+            display: none;
+            animation: fadeIn 0.4s ease;
+        }
+        .section-content.active {
+            display: block;
+        }
+
+        @keyframes fadeIn {
+            0% { opacity: 0; transform: translateY(12px); }
+            100% { opacity: 1; transform: translateY(0); }
+        }
+
+        .hero-section {
+            margin: 2.5rem 0 3.5rem;
+            display: flex;
+            flex-wrap: wrap;
+            gap: 2rem;
+            align-items: center;
+            justify-content: space-between;
+        }
+        .hero-text {
+            flex: 1 1 380px;
+        }
+        .hero-text h1 {
+            font-size: 3.2rem;
+            font-weight: 800;
+            letter-spacing: -2px;
+            line-height: 1.1;
+        }
+        .hero-text .tagline {
+            font-size: 1.2rem;
+            color: #464660;
+            margin-top: 0.7rem;
+            max-width: 540px;
+        }
+        .hero-emoji {
+            flex: 0 0 160px;
+            display: flex;
+            justify-content: center;
+            font-size: 7rem;
+            line-height: 1;
+        }
+
+        .ad-spot {
+            background: #ffffff;
+            border-radius: 1.5rem;
+            padding: 1rem;
+            margin: 2.5rem 0;
+            border: 1px solid #e3dfd8;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            overflow: hidden;
+        }
+        .ad-spot .ad-label {
+            font-size: 0.7rem;
+            color: #88889a;
+            text-transform: uppercase;
+            letter-spacing: 1px;
+            padding: 0.2rem 0.8rem;
+            display: inline-block;
+            background: #f0ede8;
+            border-radius: 20px;
+            margin-bottom: 0.5rem;
+        }
+        .ad-spot .ad-content {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+            padding: 0.5rem;
+        }
+        .ad-spot .ad-content .ad-text {
+            flex: 1;
+        }
+        .ad-spot .ad-content .ad-text h4 {
+            font-weight: 600;
+            font-size: 1rem;
+            color: #0c0c22;
+        }
+        .ad-spot .ad-content .ad-text p {
+            font-size: 0.85rem;
+            color: #5a5a72;
+        }
+        .ad-spot .ad-content .ad-img {
+            flex: 0 0 80px;
+        }
+        .ad-spot .ad-content .ad-img img {
+            width: 80px;
+            height: 80px;
+            object-fit: cover;
+            border-radius: 0.8rem;
+        }
+
+        .grid-articles {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+            gap: 2rem;
+            margin: 3rem 0;
+        }
+        .grid-articles .item {
+            background: white;
+            padding: 1.8rem 1.5rem;
+            border-radius: 1.8rem;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.04);
+            border: 1px solid #eeeae3;
+            transition: 0.2s;
+        }
+        .grid-articles .item .icon-emoji {
+            font-size: 2.8rem;
+            display: block;
+            margin-bottom: 0.8rem;
+        }
+        .grid-articles .item h3 {
+            font-weight: 600;
+            margin-bottom: 0.4rem;
+            font-size: 1.2rem;
+        }
+        .grid-articles .item p {
+            color: #50506a;
+            font-size: 0.95rem;
+        }
+
+        /* ===== ESTILOS PARA PRODUCTOS, CONSEJOS Y RECURSOS ===== */
+        .page-title {
+            font-size: 2.2rem;
+            font-weight: 700;
+            margin: 2rem 0 1.5rem;
+            letter-spacing: -0.5px;
+        }
+        .page-description {
+            font-size: 1.1rem;
+            color: #4a4a62;
+            margin-bottom: 2rem;
+        }
+        .card-list {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 1.5rem;
+            margin: 1.5rem 0;
+        }
+        .card-list .card-item {
+            background: white;
+            padding: 1.8rem 1.5rem;
+            border-radius: 1.5rem;
+            border: 1px solid #eeeae3;
+            box-shadow: 0 4px 12px rgba(0,0,0,0.04);
+            transition: 0.2s;
+        }
+        .card-list .card-item:hover {
+            transform: translateY(-4px);
+            box-shadow: 0 8px 24px rgba(0,0,0,0.08);
+        }
+        .card-list .card-item .emoji-icon {
+            font-size: 2.5rem;
+            display: block;
+            margin-bottom: 0.5rem;
+        }
+        .card-list .card-item h4 {
+            font-size: 1.1rem;
+            font-weight: 600;
+            margin-bottom: 0.3rem;
+        }
+        .card-list .card-item p {
+            color: #5a5a72;
+            font-size: 0.95rem;
+        }
+        .card-list .card-item .tag {
+            display: inline-block;
+            background: #e8f0ec;
+            padding: 0.2rem 0.8rem;
+            border-radius: 20px;
+            font-size: 0.7rem;
+            font-weight: 600;
+            margin-top: 0.6rem;
+            color: #1a7a5a;
+        }
+
+        .blog-section {
+            background: white;
+            border-radius: 2rem;
+            padding: 2.2rem 2.5rem;
+            margin: 3rem 0;
+            border: 1px solid #e8e4dd;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.03);
+        }
+        .blog-section h2 {
+            font-weight: 700;
+            font-size: 2rem;
+            letter-spacing: -0.5px;
+            margin-bottom: 1.2rem;
+        }
+        .blog-section h3 {
+            font-weight: 600;
+            font-size: 1.3rem;
+            margin-top: 1.8rem;
+            margin-bottom: 0.6rem;
+            color: #0c0c22;
+        }
+        .blog-section p {
+            color: #3a3a50;
+            margin-bottom: 1rem;
+        }
+        .blog-section ul {
+            padding-left: 1.5rem;
+            margin-bottom: 1.2rem;
+            color: #3a3a50;
+        }
+        .blog-section ul li {
+            margin-bottom: 0.4rem;
+        }
+        .blog-section .highlight-box {
+            background: #eef6f2;
+            border-left: 4px solid #1a7a5a;
+            padding: 1rem 1.5rem;
+            border-radius: 0.8rem;
+            margin: 1.5rem 0;
+        }
+
+        /* ===== POLÍTICAS DE PRIVACIDAD (SECCIÓN OCULTA) ===== */
+        #politicas {
+            display: none;
+            background: white;
+            border-radius: 2rem;
+            padding: 2.5rem;
+            margin: 2rem 0;
+            border: 1px solid #e8e4dd;
+            box-shadow: 0 6px 24px rgba(0,0,0,0.03);
+        }
+        #politicas.active {
+            display: block;
+        }
+        #politicas h2 {
+            font-size: 2rem;
+            font-weight: 700;
+            margin-bottom: 1.5rem;
+            letter-spacing: -0.5px;
+        }
+        #politicas h3 {
+            font-size: 1.2rem;
+            font-weight: 600;
+            margin-top: 1.8rem;
+            margin-bottom: 0.6rem;
+            color: #0c0c22;
+        }
+        #politicas p {
+            color: #3a3a50;
+            margin-bottom: 1rem;
+        }
+        #politicas .back-btn {
+            background: #1a7a5a;
+            color: white;
+            border: none;
+            padding: 0.7rem 1.8rem;
+            border-radius: 40px;
+            font-weight: 600;
+            font-size: 0.9rem;
+            cursor: pointer;
+            margin-top: 1.5rem;
+            transition: 0.2s;
+        }
+        #politicas .back-btn:hover {
+            background: #146a4a;
+        }
+
+        .footer-full {
+            margin-top: 4rem;
+            padding-top: 2.5rem;
+            border-top: 1px solid #e3dfd8;
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(180px, 1fr));
+            gap: 2rem;
+            background: #eef6f2;
+            border-radius: 2rem;
+            padding: 2.5rem 2.5rem;
+        }
+        .footer-full .col h4 {
+            font-weight: 700;
+            margin-bottom: 0.8rem;
+            color: #0c0c22;
+        }
+        .footer-full .col a {
+            display: block;
+            color: #4a4a62;
+            text-decoration: none;
+            font-size: 0.95rem;
+            margin-bottom: 0.4rem;
+            transition: 0.15s;
+        }
+        .footer-full .col a:hover { color: #1a7a5a; }
+        .footer-full .col p {
+            color: #4a4a62;
+            font-size: 0.95rem;
+        }
+        .footer-bottom {
+            grid-column: 1 / -1;
+            border-top: 1px solid #d5d0c8;
+            padding-top: 1.5rem;
+            margin-top: 0.5rem;
+            display: flex;
+            justify-content: space-between;
+            flex-wrap: wrap;
+            gap: 1rem;
+            font-size: 0.85rem;
+            color: #5e5e76;
+        }
+        .footer-bottom a {
+            color: #1a7a5a;
+            text-decoration: none;
+            font-weight: 500;
+        }
+
+        @media (max-width: 650px) {
+            .hero-text h1 { font-size: 2.4rem; }
+            .card-box { padding: 2rem 1.5rem; }
+            .top-bar { flex-direction: column; align-items: flex-start; }
+            .nav-menu { gap: 1.2rem; flex-wrap: wrap; }
+            .blog-section { padding: 1.5rem; }
+            .footer-full { padding: 1.8rem; }
+            .hero-emoji { flex: 1 1 100%; font-size: 4.5rem; }
+            .ad-spot .ad-content {
+                flex-direction: column;
+                align-items: flex-start;
+            }
+            .ad-spot .ad-content .ad-img {
+                flex: 1 1 100%;
+                width: 100%;
+            }
+            .ad-spot .ad-content .ad-img img {
+                width: 100%;
+                height: auto;
+            }
+            #politicas { padding: 1.5rem; }
+        }
+    </style>
+</head>
+<body>
+
+    <!-- ============================================================ -->
+    <!--  TARJETA DE BIENVENIDA (OVERLAY) - Estilo WhatsApp Business   -->
+    <!-- ============================================================ -->
+    <div id="welcomeOverlay" class="overlay-card">
+        <div class="card-box">
+            <span class="emoji-big">🧼</span>
+            <h2>Jabones Jelpt</h2>
+            <p class="sub">
+                Aseo profesional para apartamentos.
+            </p>
+            <p class="sub" style="font-size:0.85rem; color:#6b6b82; margin-bottom:1.2rem;">
+                Para ofrecerte la mejor experiencia personalizada, utilizamos cookies y tecnologías similares que nos ayudan a mejorar nuestros servicios.
+                <br /><br />
+                Al hacer clic en <strong>Aceptar y continuar</strong> consientes el uso de cookies conforme a nuestra <button class="politicas-link" id="inlinePoliticas">Política de Privacidad</button>.
+            </p>
+
+            <button id="acceptBtn" class="btn-accept">Aceptar y continuar</button>
+
+            <div class="card-footer-links">
+                <button class="link-btn" data-link="privacidad" id="showPoliticas">Políticas de privacidad</button>
+                <button class="link-btn" data-link="terminos">Términos de uso</button>
+                <button class="link-btn" data-link="contacto">Contacto</button>
+            </div>
+
+            <div class="revoke-text">
+                Puedes revocar tu consentimiento en cualquier momento desde la configuración del sitio.
+            </div>
+        </div>
+    </div>
+
+    <!-- ============================================================ -->
+    <!--  CONTENIDO PRINCIPAL                                          -->
+    <!-- ============================================================ -->
+    <div class="main-wrap">
+
+        <header class="top-bar">
+            <div class="logo-brand">
+                <span style="font-size:1.8rem;">🧼</span>
+                Jabones <span>Jelpt</span>
+            </div>
+            <nav class="nav-menu">
+                <button class="active" data-section="inicio">Inicio</button>
+                <button data-section="productos">Productos</button>
+                <button data-section="consejos">Consejos</button>
+                <button data-section="recursos">Recursos</button>
+                <button id="navPoliticas" style="color:#1a7a5a;">Privacidad</button>
+            </nav>
+        </header>
+
+        <!-- ============================================================ -->
+        <!--  SECCIÓN: INICIO                                              -->
+        <!-- ============================================================ -->
+        <div id="inicio" class="section-content active">
+
+            <section class="hero-section">
+                <div class="hero-text">
+                    <h1>Limpieza profunda <br />para tu apartamento</h1>
+                    <p class="tagline">
+                        Jabones Jelpt: la fórmula perfecta para un hogar impecable, con fragancias que enamoran y resultados que hablan por sí solos.
+                    </p>
+                </div>
+                <div class="hero-emoji">🧼</div>
+            </section>
+
+            <div class="ad-spot">
+                <span class="ad-label">🌟 Destacado</span>
+                <div class="ad-content">
+                    <div class="ad-text">
+                        <h4>🧽 Kit de limpieza premium</h4>
+                        <p>Incluye jabón líquido, desinfectante y fragancia duradera. ¡Oferta especial para nuevos clientes!</p>
+                    </div>
+                    <div class="ad-img">
+                        <img src="https://images.unsplash.com/photo-1584824486509-112e4181ff6b?w=200&h=200&fit=crop&crop=center" alt="Productos de limpieza" loading="lazy" />
+                    </div>
+                </div>
+            </div>
+
+            <div class="grid-articles">
+                <div class="item">
+                    <span class="icon-emoji">🧴</span>
+                    <h3>Jabón líquido multiusos</h3>
+                    <p>Ideal para pisos, superficies y baños. Elimina el 99% de las bacterias.</p>
+                </div>
+                <div class="item">
+                    <span class="icon-emoji">🌿</span>
+                    <h3>Fragancias naturales</h3>
+                    <p>Lavanda, limón y eucalipto. Deja tu hogar con olor a limpio por horas.</p>
+                </div>
+                <div class="item">
+                    <span class="icon-emoji">💧</span>
+                    <h3>Fórmula concentrada</h3>
+                    <p>Rinde más con menos cantidad. Ahorra dinero y cuida el medio ambiente.</p>
+                </div>
+                <div class="item">
+                    <span class="icon-emoji">🧤</span>
+                    <h3>Hipoalergénico</h3>
+                    <p>Probado dermatológicamente. Sin químicos agresivos, seguro para toda la familia.</p>
+                </div>
+            </div>
+
+            <section class="blog-section">
+                <h2>🧼 ¿Por qué elegir Jabones Jelpt?</h2>
+                <p>
+                    En Jabones Jelpt entendemos que la limpieza de tu apartamento no es solo una tarea, es un acto de cuidado para ti y los tuyos. Por eso, hemos desarrollado una línea de productos que combina eficacia, fragancia y respeto por el medio ambiente.
+                </p>
+                <h3>1. Eficacia probada</h3>
+                <p>
+                    Nuestros jabones eliminan la suciedad más difícil sin dañar las superficies. Desde cocinas hasta baños, cada producto está diseñado para un tipo de limpieza específica.
+                </p>
+                <div class="highlight-box">
+                    <strong>💡 Dato:</strong> El 95% de nuestros clientes nota la diferencia desde el primer uso.
+                </div>
+
+                <h3>2. Fragancias que perduran</h3>
+                <p>
+                    No solo limpiamos, también aromatizamos. Nuestras fragancias naturales de lavanda, limón y eucalipto dejan tu hogar con un olor fresco y duradero.
+                </p>
+                <ul>
+                    <li><strong>Lavanda:</strong> Relajante y calmante, ideal para dormitorios.</li>
+                    <li><strong>Limón:</strong> Energizante y desinfectante, perfecto para cocinas.</li>
+                    <li><strong>Eucalipto:</strong> Refrescante y purificante, ideal para baños.</li>
+                </ul>
+
+                <h3>3. Compromiso con el medio ambiente</h3>
+                <p>
+                    Nuestros productos son biodegradables y los envases son reciclables. Creemos que un hogar limpio no debe ser un hogar contaminado.
+                </p>
+                <div class="highlight-box">
+                    <strong>🌍 Compromiso verde:</strong> Por cada producto vendido, sembramos un árbol en alianza con reforestadoras locales.
+                </div>
+
+                <h3>4. Fórmula concentrada</h3>
+                <p>
+                    Nuestra tecnología de concentración permite que una pequeña cantidad rinda como tres veces más que los jabones tradicionales. Ahorras dinero y reduces el plástico.
+                </p>
+            </section>
+
+            <div class="ad-spot">
+                <span class="ad-label">📦 Envío gratis</span>
+                <div class="ad-content">
+                    <div class="ad-text">
+                        <h4>📦 Lleva tu kit completo</h4>
+                        <p>Compra el combo de 3 jabones y llévate un cepillo ecológico de regalo. ¡Solo por esta semana!</p>
+                    </div>
+                    <div class="ad-img">
+                        <img src="https://images.unsplash.com/photo-1563453392212-326f5e854473?w=200&h=200&fit=crop&crop=center" alt="Kit de limpieza" loading="lazy" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!--  SECCIÓN: PRODUCTOS                                           -->
+        <!-- ============================================================ -->
+        <div id="productos" class="section-content">
+            <h2 class="page-title">🧴 Nuestros productos</h2>
+            <p class="page-description">Descubre la línea completa de Jabones Jelpt para el aseo de tu apartamento.</p>
+
+            <div class="card-list">
+                <div class="card-item">
+                    <span class="emoji-icon">🧴</span>
+                    <h4>Jabón Multiusos Lavanda</h4>
+                    <p>Perfecto para pisos, azulejos y superficies. Deja un aroma relajante.</p>
+                    <span class="tag">🌿 Lavanda</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">🧴</span>
+                    <h4>Jabón Desinfectante Limón</h4>
+                    <p>Elimina bacterias y virus. Ideal para cocinas y baños.</p>
+                    <span class="tag">🍋 Limón</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">🧴</span>
+                    <h4>Jabón Purificante Eucalipto</h4>
+                    <p>Refresca y purifica el ambiente. Perfecto para zonas húmedas.</p>
+                    <span class="tag">🌿 Eucalipto</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">🧽</span>
+                    <h4>Kit de limpieza premium</h4>
+                    <p>Incluye los tres jabones + cepillo ecológico + microfibra.</p>
+                    <span class="tag">🎁 Oferta</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">🧪</span>
+                    <h4>Jabón líquido concentrado</h4>
+                    <p>Rinde hasta 3 veces más. Ahorra dinero y espacio.</p>
+                    <span class="tag">💰 Económico</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">🧤</span>
+                    <h4>Jabón hipoalergénico</h4>
+                    <p>Sin químicos agresivos. Seguro para pieles sensibles.</p>
+                    <span class="tag">👶 Suave</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!--  SECCIÓN: CONSEJOS                                            -->
+        <!-- ============================================================ -->
+        <div id="consejos" class="section-content">
+            <h2 class="page-title">💡 Consejos de limpieza</h2>
+            <p class="page-description">Tips prácticos para mantener tu apartamento impecable con Jabones Jelpt.</p>
+
+            <div class="card-list">
+                <div class="card-item">
+                    <span class="emoji-icon">✅</span>
+                    <h4>Limpia de arriba hacia abajo</h4>
+                    <p>Empieza por los techos y estantes, termina en los pisos. Así la suciedad cae y la recoges al final.</p>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">✅</span>
+                    <h4>Usa la cantidad justa</h4>
+                    <p>Con Jabones Jelpt concentrados, una pequeña cantidad es suficiente. Ahorras producto y proteges superficies.</p>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">✅</span>
+                    <h4>Ventila mientras limpias</h4>
+                    <p>Abre ventanas para que los olores se renueven y las superficies sequen más rápido.</p>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">✅</span>
+                    <h4>Limpieza semanal profunda</h4>
+                    <p>Dedica un día a la semana para limpiar a fondo: pisos, baños, cocina y ventanas.</p>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">✅</span>
+                    <h4>Usa paños de microfibra</h4>
+                    <p>Atrapan el polvo y la suciedad sin rayar. Son reutilizables y ecológicos.</p>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">✅</span>
+                    <h4>No olvides los rincones</h4>
+                    <p>Las esquinas y detrás de los muebles acumulan polvo. Pásales el jabón con regularidad.</p>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!--  SECCIÓN: RECURSOS                                            -->
+        <!-- ============================================================ -->
+        <div id="recursos" class="section-content">
+            <h2 class="page-title">📎 Recursos útiles</h2>
+            <p class="page-description">Descargables, guías y herramientas para una limpieza profesional en tu apartamento.</p>
+
+            <div class="card-list">
+                <div class="card-item">
+                    <span class="emoji-icon">📋</span>
+                    <h4>Guía de limpieza por habitación</h4>
+                    <p>Consejos específicos para cocina, baño, sala y dormitorios.</p>
+                    <span class="tag">📄 PDF</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">📊</span>
+                    <h4>Calendario de limpieza mensual</h4>
+                    <p>Organiza tus tareas de limpieza día a día con esta plantilla.</p>
+                    <span class="tag">⬇️ Descargar</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">📹</span>
+                    <h4>Video: Cómo usar Jabones Jelpt</h4>
+                    <p>Consejos visuales para aplicar los productos en diferentes superficies.</p>
+                    <span class="tag">▶️ Ver</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">🧪</span>
+                    <h4>Guía de dilución correcta</h4>
+                    <p>Proporciones exactas para cada tipo de limpieza con productos concentrados.</p>
+                    <span class="tag">📄 PDF</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">📱</span>
+                    <h4>App: Recordatorio de limpieza</h4>
+                    <p>Descarga nuestra app para recordatorios y ofertas exclusivas.</p>
+                    <span class="tag">🔗 Enlace</span>
+                </div>
+                <div class="card-item">
+                    <span class="emoji-icon">📘</span>
+                    <h4>Manual de cuidado de superficies</h4>
+                    <p>Cómo limpiar cada tipo de material: madera, cerámica, vidrio, acero.</p>
+                    <span class="tag">📄 PDF</span>
+                </div>
+            </div>
+        </div>
+
+        <!-- ============================================================ -->
+        <!--  SECCIÓN: POLÍTICAS DE PRIVACIDAD                            -->
+        <!-- ============================================================ -->
+        <div id="politicas">
+            <h2>🔒 Política de Privacidad</h2>
+            <p>
+                En <strong>Jabones Jelpt</strong> valoramos tu privacidad y nos comprometemos a proteger tus datos personales. Esta política explica cómo recopilamos, usamos y protegemos tu información cuando visitas nuestro sitio web.
+            </p>
+
+            <h3>Información que recopilamos</h3>
+            <p>
+                Podemos recopilar información personal como tu nombre, correo electrónico, número de teléfono y dirección de envío cuando realizas una compra, te registras en nuestro sitio o te contactas con nosotros. Además, recopilamos información no personal como tu dirección IP, tipo de navegador, proveedor de servicios de internet (ISP), sello de fecha y hora, páginas de referencia o salida, y posiblemente el número de clics.
+            </p>
+            <p>
+                También recopilamos información sobre tus preferencias de productos y comportamiento de compra para ofrecerte recomendaciones personalizadas y mejorar nuestros servicios.
+            </p>
+
+            <h3>Uso de la información</h3>
+            <p>
+                La información que recopilamos se utiliza para:
+            </p>
+            <ul style="padding-left: 1.5rem; margin-bottom: 1rem; color: #3a3a50;">
+                <li><strong>Procesar pedidos:</strong> Gestionar compras, envíos y devoluciones.</li>
+                <li><strong>Atención al cliente:</strong> Responder consultas y resolver problemas.</li>
+                <li><strong>Mejorar nuestros productos:</strong> Analizar tendencias de uso y preferencias.</li>
+                <li><strong>Marketing personalizado:</strong> Enviar ofertas y promociones relevantes (si has dado tu consentimiento).</li>
+                <li><strong>Seguridad:</strong> Prevenir fraudes y proteger la integridad de nuestro sitio.</li>
+            </ul>
+
+            <h3>Políticas de Privacidad de Terceros</h3>
+            <p>
+                La Política de Privacidad de <strong>Jabones Jelpt</strong> no se aplica a otros anunciantes o sitios web. Por lo tanto, te aconsejamos que consultes las respectivas Políticas de Privacidad de estos servidores de anuncios de terceros para obtener información más detallada. Puede incluir sus prácticas e instrucciones sobre cómo optar por no participar en ciertas opciones.
+            </p>
+            <p>
+                Utilizamos servicios de terceros como plataformas de pago, envío y análisis de datos. Estos terceros tienen sus propias políticas de privacidad y no nos hacemos responsables por el uso que hagan de tu información.
+            </p>
+
+            <h3>Cookies y tecnologías similares</h3>
+            <p>
+                Utilizamos cookies para mejorar tu experiencia en nuestro sitio. Las cookies nos permiten recordar tus preferencias, analizar el tráfico y personalizar el contenido. Puedes configurar tu navegador para rechazar las cookies, pero esto puede afectar la funcionalidad del sitio.
+            </p>
+            <p>
+                Las cookies que utilizamos incluyen:
+            </p>
+            <ul style="padding-left: 1.5rem; margin-bottom: 1rem; color: #3a3a50;">
+                <li><strong>Cookies esenciales:</strong> Necesarias para el funcionamiento básico del sitio (carrito de compras, autenticación).</li>
+                <li><strong>Cookies de rendimiento:</strong> Para analizar cómo los usuarios interactúan con el sitio y mejorar su rendimiento.</li>
+                <li><strong>Cookies de funcionalidad:</strong> Para recordar tus preferencias (idioma, región).</li>
+                <li><strong>Cookies de marketing:</strong> Para mostrar anuncios relevantes basados en tu comportamiento.</li>
+            </ul>
+
+            <h3>Seguridad de los datos</h3>
+            <p>
+                Implementamos medidas de seguridad técnicas y organizativas para proteger tu información personal contra accesos no autorizados, pérdida o alteración. Sin embargo, ningún sistema es completamente infalible, por lo que no podemos garantizar la seguridad absoluta de tus datos.
+            </p>
+
+            <h3>Tus derechos</h3>
+            <p>
+                Tienes derecho a acceder, rectificar, eliminar y oponerte al tratamiento de tus datos personales. También puedes solicitar la limitación del tratamiento y la portabilidad de tus datos. Para ejercer estos derechos, contáctanos a través de nuestro formulario de contacto o envíanos un correo a <strong>privacidad@jabonesjelpt.com</strong>.
+            </p>
+
+            <h3>Consentimiento</h3>
+            <p>
+                Al utilizar nuestro sitio web, por la presente aceptas nuestra Política de Privacidad y estás de acuerdo con sus términos y condiciones. Si no estás de acuerdo, te recomendamos no utilizar nuestros servicios.
+            </p>
+
+            <button class="back-btn" id="backFromPoliticas">← Volver al inicio</button>
+        </div>
+
+        <!-- ============================================================ -->
+        <!--  FOOTER                                                       -->
+        <!-- ============================================================ -->
+        <footer class="footer-full">
+            <div class="col">
+                <h4>🧼 Jabones Jelpt</h4>
+                <p>Aseo profesional para apartamentos. Productos eficaces, fragancias naturales y compromiso con el medio ambiente.</p>
+            </div>
+            <div class="col">
+                <h4>🧴 Productos</h4>
+                <a href="#">Jabón Multiusos</a>
+                <a href="#">Desinfectante</a>
+                <a href="#">Fragancias</a>
+                <a href="#">Kits</a>
+            </div>
+            <div class="col">
+                <h4>📎 Recursos</h4>
+                <a href="#">Guías de limpieza</a>
+                <a href="#">Plantillas</a>
+                <a href="#">Videos</a>
+                <a href="#">Preguntas frecuentes</a>
+            </div>
+            <div class="col">
+                <h4>📧 Contacto</h4>
+                <p>📧 info@jabonesjelpt.com</p>
+                <p>📞 +57 300 000 0000</p>
+                <p>📍 Bogotá, Colombia</p>
+            </div>
+
+            <div class="footer-bottom">
+                <span>© 2026 Jabones Jelpt · Todos los derechos reservados</span>
+                <span>
+                    <a href="#" id="footerPoliticas">Privacidad</a> · 
+                    <a href="#">Términos</a> · 
+                    <a href="#">Cookies</a> · 
+                    <a href="#">Mapa del sitio</a>
+                </span>
+            </div>
+        </footer>
+    </div>
+
+    <!-- ============================================================ -->
+    <!--  SCRIPT                                                       -->
+    <!-- ============================================================ -->
+    <script>
+        (function() {
+            // ===== OVERLAY DE BIENVENIDA =====
+            const overlay = document.getElementById('welcomeOverlay');
+            const acceptBtn = document.getElementById('acceptBtn');
+
+            function checkAcceptance() {
+                const accepted = localStorage.getItem('jabones_jelpt_accepted');
+                if (accepted === 'true') {
+                    overlay.classList.add('hidden');
+                } else {
+                    overlay.classList.remove('hidden');
+                }
+            }
+
+            function acceptCookies() {
+                localStorage.setItem('jabones_jelpt_accepted', 'true');
+                overlay.classList.add('hidden');
+            }
+
+            acceptBtn.addEventListener('click', acceptCookies);
+
+            // Los botones de la tarjeta (Políticas, Términos, Contacto) también aceptan
+            const linkBtns = document.querySelectorAll('.link-btn');
+            linkBtns.forEach(function(btn) {
+                btn.addEventListener('click', function(e) {
+                    e.preventDefault();
+                    acceptCookies();
+                });
+            });
+
+            checkAcceptance();
+
+            // ===== NAVEGACIÓN POR PESTAÑAS =====
+            const navButtons = document.querySelectorAll('.nav-menu button:not(#navPoliticas)');
+            const sections = {
+                inicio: document.getElementById('inicio'),
+                productos: document.getElementById('productos'),
+                consejos: document.getElementById('consejos'),
+                recursos: document.getElementById('recursos')
+            };
+            const politicasSection = document.getElementById('politicas');
+
+            function showSection(sectionId) {
+                // Ocultar secciones principales
+                Object.keys(sections).forEach(function(key) {
+                    sections[key].classList.remove('active');
+                });
+                // Ocultar políticas
+                politicasSection.classList.remove('active');
+
+                // Mostrar la seleccionada
+                if (sections[sectionId]) {
+                    sections[sectionId].classList.add('active');
+                }
+
+                // Actualizar clase active en botones
+                navButtons.forEach(function(btn) {
+                    btn.classList.remove('active');
+                    if (btn.dataset.section === sectionId) {
+                        btn.classList.add('active');
+                    }
+                });
+            }
+
+            // Navegación por pestañas
+            navButtons.forEach(function(btn) {
+                btn.addEventListener('click', function() {
+                    const sectionId = this.dataset.section;
+                    showSection(sectionId);
+                });
+            });
+
+            // ===== MOSTRAR POLÍTICAS DE PRIVACIDAD =====
+            function showPoliticas() {
+                // Ocultar todas las secciones principales
+                Object.keys(sections).forEach(function(key) {
+                    sections[key].classList.remove('active');
+                });
+                // Mostrar políticas
+                politicasSection.classList.add('active');
+                // Quitar active de todos los botones del menú
+                navButtons.forEach(function(btn) {
+                    btn.classList.remove('active');
+                });
+            }
+
+            // Botón "Políticas de privacidad" en la tarjeta
+            document.getElementById('showPoliticas').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!overlay.classList.contains('hidden')) {
+                    acceptCookies();
+                }
+                showPoliticas();
+            });
+
+            // Enlace "Política de Privacidad" dentro del texto (inline)
+            document.getElementById('inlinePoliticas').addEventListener('click', function(e) {
+                e.preventDefault();
+                if (!overlay.classList.contains('hidden')) {
+                    acceptCookies();
+                }
+                showPoliticas();
+            });
+
+            // Botón "Privacidad" en el menú superior
+            document.getElementById('navPoliticas').addEventListener('click', function() {
+                showPoliticas();
+            });
+
+            // Botón "Privacidad" en el footer
+            document.getElementById('footerPoliticas').addEventListener('click', function(e) {
+                e.preventDefault();
+                showPoliticas();
+            });
+
+            // Botón "Volver al inicio" desde políticas
+            document.getElementById('backFromPoliticas').addEventListener('click', function() {
+                showSection('inicio');
+            });
+
+            // Mostrar inicio por defecto si no hay sección activa
+            if (!document.querySelector('.section-content.active')) {
+                showSection('inicio');
+            }
+        })();
+    </script>
+
+</body>
+</html>
